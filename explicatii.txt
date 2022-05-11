@@ -1,0 +1,43 @@
+Introducere
+
+Siguranța unui algoritm hash constă în faptul că funcția nu este inversabilă (adică nu este posibil să se întoarcă 
+la mesajul original știind doar aceste date) și că nu trebuie să fie niciodată posibilă crearea intenționată a două 
+mesaje diferite cu același digest .
+
+- nu este o functie inversabila ( nu poti obtine de la digest, input-ul);
+- acelasi input va prodice mereu acelasi digest;
+
+SHA1- produce un rezumat al mesajului de numai 160 de biți dintr-un 
+      mesaj cu o lungime maximă de 2 64 -1.
+    - de aceea initializam 5 cantitati ( variabile) unsigned
+      a cate 32 de biti la inceput.
+      ( de exemplu, SHA2 produce 256 de biti)
+
+Pasul 1 (Padding): biții „Padding” sunt adăugați la mesajul original,
+astfel încât lungimea finală a mesajului să fie congruentă cu 448 modulo 512,
+făcând astfel lungimea bitului „mesaj + padding” împărțită la 512 va da 
+restul 448.
+Pasul 2 (Adăugare lungime): Un număr întreg de 64 biți nesemnat care 
+conține lungimea mesajului original este adăugat la secvența de biți 
+(mesaj + umplere) creată la pasul 1. La sfârșitul acestor primii doi 
+pași obținem o secvență de biți care este multiplu de 512.
+Pasul 3 (inițializarea bufferului MD): Un buffer de 160 biți împărțit 
+în 5 registre de 32 de biți fiecare este creat pentru stocarea unor pași
+intermediari. Cele 5 registre vor fi indicate în mod convențional cu
+(A, B, C, D, E) și inițializate cu următoarele valori hexazecimale:
+
+A = 67452301
+B = EFCDAB89
+C = 98BADCFE
+D = 10325476
+E = C3D2E1F0
+Pasul 4 (Prelucrarea blocurilor de 512 biți): Secvența de biți 
+„mesaj + umplere + lungimea mesajului” este împărțită în blocuri 
+de 512 biți, pe care le vom identifica cu B n cu n variind de la 0 la L.
+ Nucleul algoritmului SHA-1 se numește funcție de compresie și este 
+alcătuită din 4 cicluri de câte 20 de trepte. Buclele au o structură 
+foarte asemănătoare, cu excepția faptului că utilizează o funcție logică
+ primitivă diferită. Fiecare bloc este luat ca parametru de intrare de către
+ toate cele 4 cicluri împreună cu o constantă K și valorile celor 5 registre.
+ La sfârșitul calculului vom obține noi valori pentru A, B, C, D, E pe care 
+le vom folosi pentru calcularea următorului bloc până la blocul final F
